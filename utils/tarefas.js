@@ -1,7 +1,6 @@
-const express = require('express');
-const router = express.Router();
+let tarefas = [];
+let proximoId = 1;
 
-const tarefas = [];
  function listarTodas() {
     return tarefas;
  }
@@ -10,9 +9,14 @@ const tarefas = [];
     return tarefas.find(t => t.id === id);
  }
 
- function adicionar(tarefas) {
-    tarefas.push(tarefa);
-    return tarefa;
+ function adicionar(dados) {
+    const nova = { id: proximoId++, ...dados };
+    tarefas.push(nova);
+    return nova;
+ }
+
+ function remover(id) {
+   tarefas = tarefas.filter(t => t.id !== id)
  }
  
-Module.exports = { listarTodas, buscarPorId, adicionar };
+Module.exports = { listarTodas, buscarPorId, adicionar, remover };
