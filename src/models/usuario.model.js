@@ -1,4 +1,4 @@
-let usuarios = [ { id: 1, nome: "admin", email: "admin@taskflow.com" } ];
+let usuarios = [ { id: 1, nome: "Alice", email: "alice@email.com", senha:"123456" } ];
 let proximoId = 2;
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
     buscar: (id) => usuarios.find(u => u.id === id),
     buscarPorEmail: (email) => usuarios.find(u => u.email === email),
     adicionar: ({ nome, email, senha }) => {
-        const novo = { id: proximoId++, nome, email, };
+        const novo = { id: proximoId++, nome, email, senha };
         usuarios.push(novo);
         return novo;
     },
