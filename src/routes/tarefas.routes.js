@@ -9,9 +9,9 @@ router.get('/estatisticas', tarefasController.estatisticas);
 router.get('/resumo', tarefasController.resumo)
 
 router.get('/', tarefasController.listar);
-router.post('/', validar(schemas.usuario), usuariosController.criar);
-router.put('/:id', validar(schemas.usuario), usuariosController.atualizar);
-router.delete('/:id', tarefasController.remover);
+router.post('/', autenticar, validar(schemas.usuario), usuariosController.criar);
+router.put(autenticar, '/:id', validar(schemas.usuario),usuariosController.atualizar);
+router.delete('/:id', autenticar, tarefasController.remover);
 router.get('/:id', tarefasController.buscarPorId);
 
 module.exports = router;

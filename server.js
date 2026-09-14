@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const autenticar = require('/src/middlewares/autenticar');
 const authRoutes = require('./src/routes/auth.routes');
 const tarefasRoutes = require('./src/routes/tarefas.routes');
 const usuariosRoutes = require('./src/routes/usuarios.routes');
@@ -14,7 +15,7 @@ const temporizador = require('./src/middlewares/temporizador');
 const corsMiddleware = require('./src/middlewares/corsMiddlewares')
 
 const app = express();
-const PORTA = 3000;
+const PORTA = 3001;
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
@@ -33,9 +34,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-app.use('/usuarios', usuariosRoutes);
-app.use('/tarefas', tarefasRoutes);
-app.use('/projetos',projetosRoutes);
+app.use('/usuarios', autenticar, usuariosRoutes);
+app.use('/tarefas', autenticar, tarefasRoutes);
+app.use('/projetos', autenticar, projetosRoutes);
 
 app.use((req, res) => {
     res.status(404).json({
