@@ -29,8 +29,8 @@ const tarefasController = {
   },
 
   criar(req, res) {
-    const { texto, prioridade, coluna, usuarioId } = req.usuario.id;
-
+    const { texto, prioridade, coluna, usuarioId } = req.body;
+    const dados ={...req.body,usuarioId: req.usuario.id};
     if (!texto)
       return res.status(400).json({ erro: 'O campo texto é obrigatório' });
 
@@ -51,12 +51,12 @@ const tarefasController = {
         });
     }
 
-    res.status(201).json(tarefaModel.adicionar(req.body));
+    res.status(201).json(tarefaModel.adicionar(dados));
   },
 
   atualizar(req, res) {
     const id = parseInt(req.params.id);
-    const { prioridade, coluna, usuarioId } = req.usuario.id;
+    const { prioridade, coluna, usuarioId } = req.body;
 
     if (prioridade && !PRIORIDADES_VALIDAS.includes(prioridade))
       return res.status(400).json({ erro: 'Prioridade inválida. Use: alta, media ou baixa' });
