@@ -3,16 +3,16 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const autenticar = require('/src/middlewares/autenticar');
+const autenticar = require('./src/middlewares/autenticar');
 const authRoutes = require('./src/routes/auth.routes');
-const tarefasRoutes = require('./src/routes/tarefas.routes');
+// const tarefasRoutes = require('./src/routes/tarefas.routes');
 const usuariosRoutes = require('./src/routes/usuarios.routes');
 const projetosRoutes = require('./src/routes/projetos.routes');
 
 const logger = require('./src/middlewares/logger');
 const validarContentType = require('./src/middlewares/validarContentType');
 const temporizador = require('./src/middlewares/temporizador');
-const corsMiddleware = require('./src/middlewares/corsMiddlewares')
+// const corsMiddleware = require('./src/middlewares/corsMiddlewares')
 
 const app = express();
 const PORTA = 3001;
@@ -23,11 +23,11 @@ app.use(cors({
     allowedHeader: ['Content-Type', 'Authorization'],
     
  }));
+ // app.use(corsMiddleware);
 app.use(express.json());
 app.use(validarContentType);
 app.use(logger);
 app.use(temporizador);
-app.use(corsMiddleware);
 
 app.get('/', (req, res) => {
     res.json({ mensagem: 'TaskFlow API funcionando!' });
@@ -35,14 +35,14 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/usuarios', autenticar, usuariosRoutes);
-app.use('/tarefas', autenticar, tarefasRoutes);
+// app.use('/tarefas', autenticar, tarefasRoutes);
 app.use('/projetos', autenticar, projetosRoutes);
 
 app.use((req, res) => {
     res.status(404).json({
-        erro: 'Rota não encontrada' });
+        erro: '*Rota não encontrada*' });
     });
 
 app.listen(PORTA, () => {
-    console.log('Servidor rodando em https://localhost:${PORTA}');
+    console.log(`Servidor rodando em http://localhost:${PORTA}`);
 });
